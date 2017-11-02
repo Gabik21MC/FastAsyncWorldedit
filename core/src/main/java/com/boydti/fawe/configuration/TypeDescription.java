@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.yaml.snakeyaml;
+package com.boydti.fawe.configuration;
 
 import java.util.HashMap;
 import java.util.Map;

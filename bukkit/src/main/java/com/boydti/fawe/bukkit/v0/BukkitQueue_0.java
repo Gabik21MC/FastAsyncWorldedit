@@ -1,9 +1,24 @@
 package com.boydti.fawe.bukkit.v0;
 
+import java.io.File;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.WorldCreator;
+import org.bukkit.entity.Player;
+
 import com.boydti.fawe.Fawe;
 import com.boydti.fawe.FaweCache;
 import com.boydti.fawe.bukkit.BukkitPlayer;
-import com.boydti.fawe.bukkit.FaweBukkit;
 import com.boydti.fawe.example.CharFaweChunk;
 import com.boydti.fawe.example.NMSMappedFaweQueue;
 import com.boydti.fawe.object.FaweChunk;
@@ -16,28 +31,8 @@ import com.sk89q.jnbt.Tag;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldedit.bukkit.adapter.BukkitImplAdapter;
 import com.sk89q.worldedit.world.biome.BaseBiome;
-import java.io.File;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.WorldCreator;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.world.ChunkLoadEvent;
-import org.bukkit.event.world.ChunkUnloadEvent;
-import org.bukkit.event.world.WorldInitEvent;
 
-public abstract class BukkitQueue_0<CHUNK, CHUNKSECTIONS, SECTION> extends NMSMappedFaweQueue<World, CHUNK, CHUNKSECTIONS, SECTION> implements Listener {
+public abstract class BukkitQueue_0<CHUNK, CHUNKSECTIONS, SECTION> extends NMSMappedFaweQueue<World, CHUNK, CHUNKSECTIONS, SECTION> {
 
     private static BukkitImplAdapter adapter;
     private static FaweAdapter_All backupAdaper;
@@ -50,7 +45,7 @@ public abstract class BukkitQueue_0<CHUNK, CHUNKSECTIONS, SECTION> extends NMSMa
         setupAdapter(null);
         if (!registered) {
             registered = true;
-            Bukkit.getServer().getPluginManager().registerEvents(this, ((FaweBukkit) Fawe.imp()).getPlugin());
+//            Bukkit.getServer().getPluginManager().registerEvents(this, ((FaweBukkit) Fawe.imp()).getPlugin());
         }
     }
 
@@ -59,7 +54,7 @@ public abstract class BukkitQueue_0<CHUNK, CHUNKSECTIONS, SECTION> extends NMSMa
         setupAdapter(null);
         if (!registered) {
             registered = true;
-            Bukkit.getServer().getPluginManager().registerEvents(this, ((FaweBukkit) Fawe.imp()).getPlugin());
+//            Bukkit.getServer().getPluginManager().registerEvents(this, ((FaweBukkit) Fawe.imp()).getPlugin());
         }
     }
 
@@ -126,40 +121,40 @@ public abstract class BukkitQueue_0<CHUNK, CHUNKSECTIONS, SECTION> extends NMSMa
         }
     }
 
-    protected static boolean registered = false;
-    protected static boolean disableChunkLoad = false;
+    public static boolean registered = false;
+    public static boolean disableChunkLoad = false;
 
-    @EventHandler
-    public static void onWorldLoad(WorldInitEvent event) {
-        if (disableChunkLoad) {
-            World world = event.getWorld();
-            world.setKeepSpawnInMemory(false);
-        }
-    }
+//    @EventHandler
+//    public static void onWorldLoad(WorldInitEvent event) {
+//        if (disableChunkLoad) {
+//            World world = event.getWorld();
+//            world.setKeepSpawnInMemory(false);
+//        }
+//    }
 
     public static ConcurrentHashMap<Long, Long> keepLoaded = new ConcurrentHashMap<>(8, 0.9f, 1);
 
 
-    @EventHandler
-    public static void onChunkLoad(ChunkLoadEvent event) {
-        Chunk chunk = event.getChunk();
-        long pair = MathMan.pairInt(chunk.getX(), chunk.getZ());
-        keepLoaded.putIfAbsent(pair, Fawe.get().getTimer().getTickStart());
-    }
-
-    @EventHandler
-    public static void onChunkUnload(ChunkUnloadEvent event) {
-        Chunk chunk = event.getChunk();
-        long pair = MathMan.pairInt(chunk.getX(), chunk.getZ());
-        Long lastLoad = keepLoaded.get(pair);
-        if (lastLoad != null) {
-            if (Fawe.get().getTimer().getTickStart() - lastLoad < 10000) {
-                event.setCancelled(true);
-            } else {
-                keepLoaded.remove(pair);
-            }
-        }
-    }
+//    @EventHandler
+//    public static void onChunkLoad(ChunkLoadEvent event) {
+//        Chunk chunk = event.getChunk();
+//        long pair = MathMan.pairInt(chunk.getX(), chunk.getZ());
+//        keepLoaded.putIfAbsent(pair, Fawe.get().getTimer().getTickStart());
+//    }
+//
+//    @EventHandler
+//    public static void onChunkUnload(ChunkUnloadEvent event) {
+//        Chunk chunk = event.getChunk();
+//        long pair = MathMan.pairInt(chunk.getX(), chunk.getZ());
+//        Long lastLoad = keepLoaded.get(pair);
+//        if (lastLoad != null) {
+//            if (Fawe.get().getTimer().getTickStart() - lastLoad < 10000) {
+//                event.setCancelled(true);
+//            } else {
+//                keepLoaded.remove(pair);
+//            }
+//        }
+//    }
 
     @Override
     public boolean queueChunkLoad(int cx, int cz) {

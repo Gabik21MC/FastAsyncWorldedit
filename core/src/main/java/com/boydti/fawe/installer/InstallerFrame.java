@@ -43,7 +43,7 @@ public class InstallerFrame extends JFrame {
     private Color OFF_WHITE = new Color(200, 200, 200);
 
     private JTextArea loggerTextArea;
-    private BrowseButton browse;
+//    private BrowseButton browse;
 
     public InstallerFrame() throws Exception {
         final MovablePanel movable = new MovablePanel(this);
@@ -93,20 +93,20 @@ public class InstallerFrame extends JFrame {
             final InteractiveButton text = new InteractiveButton(dir.getPath(), DARKER_GRAY) {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    browse.actionPerformed(e);
+//                    browse.actionPerformed(e);
                 }
             };
             text.setForeground(OFF_WHITE);
             text.setBackground(DARKER_GRAY);
             text.setOpaque(true);
             text.setBorder(new EmptyBorder(4, 4, 4, 4));
-            browse = new BrowseButton() {
-                @Override
-                public void onSelect(File folder) {
-                    text.setText(folder.getPath());
-                    movable.repaint();
-                }
-            };
+//            browse = new BrowseButton() {
+//                @Override
+//                public void onSelect(File folder) {
+//                    text.setText(folder.getPath());
+//                    movable.repaint();
+//                }
+//            };
             InteractiveButton install = new InteractiveButton(">> Create Profile <<", DARKER_GRAY) {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -119,7 +119,7 @@ public class InstallerFrame extends JFrame {
             };
             browseContent.add(folder, BorderLayout.WEST);
             browseContent.add(text, BorderLayout.CENTER);
-            browseContent.add(browse, BorderLayout.EAST);
+//            browseContent.add(browse, BorderLayout.EAST);
             final JPanel installContent = new InvisiblePanel(new FlowLayout());
             install.setPreferredSize(new Dimension(416, 32));
             installContent.add(install);

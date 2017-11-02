@@ -1,19 +1,33 @@
 package com.boydti.fawe.bukkit;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
+
+import org.bukkit.Bukkit;
+import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredServiceProvider;
+import org.primesoft.blockshub.BlocksHubBukkit;
+
 import com.boydti.fawe.Fawe;
 import com.boydti.fawe.IFawe;
 import com.boydti.fawe.bukkit.chat.BukkitChatManager;
 import com.boydti.fawe.bukkit.listener.BrushListener;
 import com.boydti.fawe.bukkit.listener.RenderListener;
-import com.boydti.fawe.bukkit.regions.FactionsFeature;
-import com.boydti.fawe.bukkit.regions.FactionsOneFeature;
-import com.boydti.fawe.bukkit.regions.FactionsUUIDFeature;
-import com.boydti.fawe.bukkit.regions.GriefPreventionFeature;
-import com.boydti.fawe.bukkit.regions.PlotMeFeature;
-import com.boydti.fawe.bukkit.regions.PreciousStonesFeature;
-import com.boydti.fawe.bukkit.regions.ResidenceFeature;
-import com.boydti.fawe.bukkit.regions.TownyFeature;
-import com.boydti.fawe.bukkit.regions.Worldguard;
+import com.boydti.fawe.bukkit.regions.*;
 import com.boydti.fawe.bukkit.util.BukkitTaskMan;
 import com.boydti.fawe.bukkit.util.ItemUtil;
 import com.boydti.fawe.bukkit.util.VaultUtil;
@@ -27,7 +41,6 @@ import com.boydti.fawe.bukkit.v0.ChunkListener;
 import com.boydti.fawe.bukkit.v1_10.BukkitQueue_1_10;
 import com.boydti.fawe.bukkit.v1_11.BukkitQueue_1_11;
 import com.boydti.fawe.bukkit.v1_12.BukkitQueue_1_12;
-import com.boydti.fawe.bukkit.v1_12.NMSRegistryDumper;
 import com.boydti.fawe.bukkit.v1_7.BukkitQueue17;
 import com.boydti.fawe.bukkit.v1_8.BukkitQueue18R3;
 import com.boydti.fawe.bukkit.v1_9.BukkitQueue_1_9_R1;
@@ -50,26 +63,6 @@ import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.bukkit.EditSessionBlockChangeDelegate;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldedit.world.World;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
-import org.bukkit.Bukkit;
-import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.RegisteredServiceProvider;
-import org.primesoft.blockshub.BlocksHubBukkit;
 
 public class FaweBukkit implements IFawe, Listener {
 
@@ -611,8 +604,8 @@ public class FaweBukkit implements IFawe, Listener {
                     if (tmp == Version.v1_12_R1) {
                         try {
                             Fawe.debug("Running 1.12 registry dumper!");
-                            NMSRegistryDumper dumper = new NMSRegistryDumper(MainUtil.getFile(plugin.getDataFolder(), "extrablocks.json"));
-                            dumper.run();
+//                            NMSRegistryDumper dumper = new NMSRegistryDumper(MainUtil.getFile(plugin.getDataFolder(), "extrablocks.json"));
+//                            dumper.run();
                         } catch (Throwable e) {
                             e.printStackTrace();
                         }

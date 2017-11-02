@@ -514,16 +514,43 @@ public class BukkitQueue17 extends BukkitQueue_0<net.minecraft.server.v1_7_R4.Ch
                             empty = true;
                         }
                     }
-                    for (EntityPlayer player : players) {
-                        int currentVersion = player.playerConnection.networkManager.getVersion();
-                        if (mask == 0 || mask == 65535 && hasEntities(nmsChunk)) {
-                            PacketPlayOutMapChunk packet = new PacketPlayOutMapChunk(nmsChunk, true, 65280, currentVersion);
-                            player.playerConnection.sendPacket(packet);
-                            mask = 255;
-                        }
-                        PacketPlayOutMapChunk packet = new PacketPlayOutMapChunk(nmsChunk, true, mask, currentVersion);
-                        player.playerConnection.sendPacket(packet);
-                    }
+                    
+		    if (mask == 0 || mask == 65535 && hasEntities(nmsChunk)) {
+			PacketPlayOutMapChunk packet17 = new PacketPlayOutMapChunk(nmsChunk, false, 65280, 5);
+			PacketPlayOutMapChunk packet18 = new PacketPlayOutMapChunk(nmsChunk, false, 65280, 47);
+
+			for (EntityPlayer player : players) {
+			    int currentVersion = player.playerConnection.networkManager.getVersion();
+			    if (currentVersion == 5) {
+				player.playerConnection.sendPacket(packet17);
+			    } else {
+				player.playerConnection.sendPacket(packet18);
+
+			    }
+			}
+			mask = 255;
+		    }
+		    PacketPlayOutMapChunk packet17 = new PacketPlayOutMapChunk(nmsChunk, false, mask, 5);
+		    PacketPlayOutMapChunk packet18 = new PacketPlayOutMapChunk(nmsChunk, false, mask, 47);
+		    for (EntityPlayer player : players) {
+			int currentVersion = player.playerConnection.networkManager.getVersion();
+			if (currentVersion == 5) {
+			    player.playerConnection.sendPacket(packet17);
+			} else {
+			    player.playerConnection.sendPacket(packet18);
+
+			}
+		    }
+//                    for (EntityPlayer player : players) {
+//                        int currentVersion = player.playerConnection.networkManager.getVersion();
+//                        if (mask == 0 || mask == 65535 && hasEntities(nmsChunk)) {
+//                            PacketPlayOutMapChunk packet = new PacketPlayOutMapChunk(nmsChunk, true, 65280, currentVersion);
+//                            player.playerConnection.sendPacket(packet);
+//                            mask = 255;
+//                        }
+//                        PacketPlayOutMapChunk packet = new PacketPlayOutMapChunk(nmsChunk, true, mask, currentVersion);
+//                        player.playerConnection.sendPacket(packet);
+//                    }
                     if (empty) {
                         for (int i = 0; i < sections.length; i++) {
                             if (sections[i] == emptySection) {
